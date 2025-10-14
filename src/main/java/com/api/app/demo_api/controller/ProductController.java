@@ -1,6 +1,6 @@
 package com.api.app.demo_api.controller;
 
-import com.api.app.demo_api.dto.ProductDto;
+import com.api.app.demo_api.common.dto.ProductDto;
 import com.api.app.demo_api.entity.Product;
 import com.api.app.demo_api.service.ProductService;
 import org.springframework.http.ResponseEntity;
