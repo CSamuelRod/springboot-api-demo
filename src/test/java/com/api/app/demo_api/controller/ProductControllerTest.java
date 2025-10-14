@@ -52,10 +52,11 @@ class ProductControllerTest {
 
     @Test
     void shouldCreateProductWhenAuthenticated() throws Exception {
-        // Testea la creación de un producto via POST
+        // Testea la creación de un producto vía POST
         String productJson = """
             {
-              "name": "Smartphone"
+            "name": "Smartphone",
+            "price": 499.99
             }
             """;
 
@@ -64,6 +65,8 @@ class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(productJson))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Smartphone"));
+                .andExpect(jsonPath("$.name").value("Smartphone"))
+                .andExpect(jsonPath("$.price").value(499.99));
     }
+
 }
