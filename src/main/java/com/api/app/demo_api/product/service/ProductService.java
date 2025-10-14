@@ -1,12 +1,12 @@
-package com.api.app.demo_api.service;
+package com.api.app.demo_api.product.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.api.app.demo_api.entity.Product;
-import com.api.app.demo_api.repository.ProductRepository;
+import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.repository.ProductRepository;
 
 @Service
 public class ProductService {

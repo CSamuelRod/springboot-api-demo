@@ -1,7 +1,8 @@
 package com.api.app.demo_api.controller;
 
-import com.api.app.demo_api.entity.Product;
-import com.api.app.demo_api.repository.ProductRepository;
+import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.repository.ProductRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

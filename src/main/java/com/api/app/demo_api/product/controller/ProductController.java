@@ -1,8 +1,9 @@
-package com.api.app.demo_api.controller;
+package com.api.app.demo_api.product.controller;
 
 import com.api.app.demo_api.common.dto.ProductDto;
-import com.api.app.demo_api.entity.Product;
-import com.api.app.demo_api.service.ProductService;
+import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.service.ProductService;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;

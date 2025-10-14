@@ -1,7 +1,9 @@
 package com.api.app.demo_api.service;
 
-import com.api.app.demo_api.entity.Product;
-import com.api.app.demo_api.repository.ProductRepository;
+import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.repository.ProductRepository;
+import com.api.app.demo_api.product.service.ProductService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
