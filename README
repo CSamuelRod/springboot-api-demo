@@ -4,7 +4,7 @@
 
 ---
 
-## 🔹 Tecnologías y herramientas
+## 🔹Tecnologías y herramientas
 
 - **Lenguaje:** Java 21  
 - **Framework:** Spring Boot 3.x  
@@ -18,7 +18,7 @@
 
 ---
 
-## 🔹 Arquitectura
+## 🔹Arquitectura
 
 La API sigue una **arquitectura en capas**:
 
@@ -44,7 +44,7 @@ Base de datos (PostgreSQL / MySQL)
 
 ---
 
-## 🔹 Funcionalidades implementadas
+## 🔹Funcionalidades implementadas
 
 - Endpoints REST seguros y documentados con Swagger UI  
 - Validación de datos de entrada  
@@ -54,7 +54,7 @@ Base de datos (PostgreSQL / MySQL)
 
 ---
 
-## 🔹 Próximos pasos / roadmap
+## 🔹Próximos pasos / roadmap
 
 - Implementar **JWT** para autenticación y autorización avanzada  
 - Migrar a **arquitectura de microservicios**  
@@ -63,7 +63,7 @@ Base de datos (PostgreSQL / MySQL)
 
 ---
 
-## 🔹 Cómo ejecutar el proyecto
+## 🔹Cómo ejecutar el proyecto
 
 1. Clonar el repositorio:  
 
@@ -78,6 +78,6 @@ git clone https://github.com/CSamuelRod/modern-springboot-api.git
 4.Acceder a la documentación Swagger:
 http://localhost:8080/swagger-ui.html
 
-## 🔹 Contribuciones
+## 🔹Contribuciones
 
 Este proyecto es personal, pero cualquier feedback o sugerencia es bienvenida para mejorar las buenas prácticas en backend con Spring Boot.
