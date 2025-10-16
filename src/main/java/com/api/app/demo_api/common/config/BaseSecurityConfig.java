@@ -12,7 +12,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfig {
+public class BaseSecurityConfig {
 
     // Usuarios en memoria (solo para desarrollo/demo)
     @Bean
@@ -35,22 +35,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // Regla de seguridad: permitir swagger + health/info, securizar el resto
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-http
-    .csrf(csrf -> csrf.disable()) // ✅ reemplaza a .csrf().disable()
-        .authorizeHttpRequests(auth -> auth
-        // Permitir acceso publico a swagger UI (UI y recursos estáticos)
-        .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-        // Permitir health y info públicamente (puedes cambiar a auth si lo prefieres)
-        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
-        // Si quieres proteger endpoints actuator sensibles, podrías:
-        // .requestMatchers("/actuator/**").hasRole("ACTUATOR")
-        // Protege el resto
-        .anyRequest().authenticated()
-        )
-          .httpBasic(Customizer.withDefaults()); // autenticación básica
-        return http.build();
-    }
 }

@@ -3,9 +3,9 @@ package com.api.app.demo_api.user.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.api.app.demo_api.user.entity.UserAPI;
 import org.springframework.stereotype.Service;
 
-import com.api.app.demo_api.user.entity.User;
 import com.api.app.demo_api.user.repository.UserRepository;
 
 @Service
@@ -17,15 +17,15 @@ public class UserService {
             this.UserRepository = UserRepository;
         }
 
-        public List<User> getAllUsers() {
+        public List<UserAPI> getAllUsers() {
             return UserRepository.findAll();
         }
 
-        public Optional<User> getUserById(Long id) {
+        public Optional<UserAPI> getUserById(Long id) {
             return UserRepository.findById(id);
         }
 
-        public User saveUser(User u) {
+        public UserAPI saveUser(UserAPI u) {
             return UserRepository.save(u);
         }
 

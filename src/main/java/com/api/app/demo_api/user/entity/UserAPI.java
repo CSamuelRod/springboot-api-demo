@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data // Lombok genera getters, setters, toString, equals y hashCode
 @Entity // Indica que esta clase es una tabla de la DB
-public class User {
+public class UserAPI {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ID autoincremental

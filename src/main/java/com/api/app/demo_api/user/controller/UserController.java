@@ -3,11 +3,11 @@ package com.api.app.demo_api.user.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.api.app.demo_api.user.entity.UserAPI;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.api.app.demo_api.common.dto.UserDto;
-import com.api.app.demo_api.user.entity.User;
+import com.api.app.demo_api.common.dto.UserApiDto;
 import com.api.app.demo_api.user.service.UserService;
 
 import jakarta.validation.Valid;
@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
+    public List<UserApiDto> getAllUsers() {
         return userService.getAllUsers()
                 .stream()
                 .map(this::toDto)
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserApiDto> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
                 .map(this::toDto)
                 .map(ResponseEntity::ok)
@@ -39,9 +39,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto dto) {
-        User user = toEntity(dto);
-        User saved = userService.saveUser(user);
+    public ResponseEntity<UserApiDto> createUser(@Valid @RequestBody UserApiDto dto) {
+        UserAPI userAPI = toEntity(dto);
+        UserAPI saved = userService.saveUser(userAPI);
         return ResponseEntity.ok(toDto(saved));
     }
 
@@ -52,16 +52,16 @@ public class UserController {
     }
 
     // Conversión Entity <-> DTO
-    private UserDto toDto(User user) {
-        UserDto dto = new UserDto();
-        dto.setId(user.getId());
-        dto.setName(user.getName());
+    private UserApiDto toDto(UserAPI userAPI) {
+        UserApiDto dto = new UserApiDto();
+        dto.setId(userAPI.getId());
+        dto.setName(userAPI.getName());
         return dto;
     }
 
-    private User toEntity(UserDto dto) {
-        User user = new User();
-        user.setName(dto.getName());
-        return user;
+    private UserAPI toEntity(UserApiDto dto) {
+        UserAPI userAPI = new UserAPI();
+        userAPI.setName(dto.getName());
+        return userAPI;
     }
 }
