@@ -12,7 +12,7 @@
 - **Base de datos:** PostgreSQL / MySQL (con Docker)  
 - **Seguridad:** Spring Security, roles y contraseñas cifradas con BCrypt  
 - **Testing:** JUnit 5, Mockito, tests unitarios e integración  
-- **Documentación:** SpringDoc / Swagger UI  
+- **Documentación:** SpringDoc / Swagger UI (eliminada por razones de vulnerabilidad)  
 - **Observabilidad:** Spring Boot Actuator  
 - **Gestión de configuración:** `application.yml` con perfiles `dev` / `prod`  
 
@@ -40,13 +40,11 @@ Base de datos (PostgreSQL / MySQL)
 - Observabilidad: métricas, logs, health checks  
 - Seguridad: roles y hashing de contraseñas  
 
-*(Aquí puedes agregar un diagrama visual de la arquitectura)*
 
 ---
 
 ## 🔹Funcionalidades implementadas
-
-- Endpoints REST seguros y documentados con Swagger UI  
+ 
 - Validación de datos de entrada  
 - Testing unitario y de integración entre capas  
 - Configuración modular y escalable  
@@ -75,8 +73,7 @@ git clone https://github.com/CSamuelRod/modern-springboot-api.git
 3.Ejecutar con Maven:
 
 ./mvnw spring-boot:run
-4.Acceder a la documentación Swagger:
-http://localhost:8080/swagger-ui.html
+
 
 ## 🔹Contribuciones
 
