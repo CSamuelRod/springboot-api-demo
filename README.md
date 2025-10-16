@@ -72,7 +72,7 @@ git clone https://github.com/CSamuelRod/modern-springboot-api.git
 
 3.Ejecutar con Maven:
 
-./mvnw spring-boot:run
+./mvnw spring-boot:run (entrara en el perfil por defecto de dev)
 
 
 ## 🔹Contribuciones
