@@ -72,9 +72,10 @@ git clone https://github.com/CSamuelRod/modern-springboot-api.git
 
 3.Ejecutar con Maven:
 
-./mvnw spring-boot:run (entrara en el perfil por defecto de dev)
-
-
+- Perfil dev
+mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+- Perfil prod
+mvnw spring-boot:run -Dspring-boot.run.profiles=prod
 ## 🔹Contribuciones
 
 Este proyecto es personal, pero cualquier feedback o sugerencia es bienvenida para mejorar las buenas prácticas en backend con Spring Boot.
