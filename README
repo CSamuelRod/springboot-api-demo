@@ -1,108 +1,96 @@
-# 🌱 SpringBoot Skill Builder
+# 🌱 SpringBoot Demo API
 
-**Proyecto de aprendizaje / API de práctica con Spring Boot**
+Proyecto de API REST modular y escalable desarrollado con Java moderno y Spring Boot, pensado como portafolio para demostrar buenas prácticas en backend profesional.
 
----
+🔹 Tecnologías y herramientas
 
-## 📋 Descripción
+Lenguaje: Java 21
 
-Este proyecto es una API desarrollada con **Spring Boot** como parte de mi proceso continuo de formación en desarrollo backend con Java.  
-El objetivo principal es **consolidar habilidades** en el ecosistema Spring, aplicando conceptos de arquitectura por capas, controladores REST, persistencia con JPA, validaciones y buenas prácticas.
+Framework: Spring Boot 3.x
 
-Cada módulo o funcionalidad que agrego refleja nuevos conocimientos adquiridos durante mi proceso de aprendizaje.
+Persistencia: Spring Data JPA + Hibernate
 
----
+Base de datos: PostgreSQL / MySQL (con Docker)
 
-## 🧩 Tecnologías utilizadas
+Seguridad: Spring Security, roles y contraseñas cifradas con BCrypt
 
-- **Java 17+**  
-- **Spring Boot**  
-  - Spring Web (controladores REST)  
-  - Spring Data JPA (persistencia)  
-  - Spring Validation  
-  - (Futuro) Spring Security  
-- **Base de datos:** H2 / MySQL / PostgreSQL  
-- **Maven** como herramienta de gestión de dependencias  
-- **JUnit / Mockito** (pruebas futuras)
+Testing: JUnit 5, Mockito, tests unitarios e integración
 
----
+Documentación: SpringDoc / Swagger UI
 
-## 🏗️ Estructura del proyecto
+Observabilidad: Spring Boot Actuator
 
-springboot-skill-builder/
-├── src/
-│ ├── main/
-│ │ ├── java/com/csamuelrod/...
-│ │ │ ├── controller/
-│ │ │ ├── service/
-│ │ │ ├── model/
-│ │ │ └── repository/
-│ │ └── resources/
-│ │ ├── application.properties
-│ │ └── data.sql / schema.sql (opcional)
-│ └── test/
-│ └── java/...
-├── pom.xml
-└── .gitignore
+Gestión de configuración: application.yml con perfiles dev / prod
+
+🔹 Arquitectura
+
+La API sigue una arquitectura en capas:
+
+Cliente (Front / Postman / otra API)
+        ↓
+Controlador (Controller)
+        ↓
+Servicio (Service)
+        ↓
+Repositorio (Repository)
+        ↓
+Base de datos (PostgreSQL / MySQL)
 
 
----
+Extras / Cross-cutting concerns:
 
-## 🚀 Cómo ejecutar el proyecto localmente
+Validaciones con Bean Validation (@Valid)
 
-1. **Clonar el repositorio:**
-   git clone https://github.com/CSamuelRod/springboot-skill-builder.git
-   cd springboot-skill-builder
+Manejo global de excepciones
+
+Configuración por perfiles (dev / prod)
+
+Observabilidad: métricas, logs, health checks
+
+Seguridad: roles y hashing de contraseñas
+
+(Aquí puedes agregar un diagrama visual de la arquitectura)
+
+🔹 Funcionalidades implementadas
+
+Endpoints REST seguros y documentados con Swagger UI
+
+Validación de datos de entrada
+
+Testing unitario y de integración entre capas
+
+Configuración modular y escalable
+
+Observabilidad con Actuator y logs básicos
+
+🔹 Próximos pasos / roadmap
+
+Implementar JWT para autenticación y autorización avanzada
+
+Migrar a arquitectura de microservicios
+
+Mejorar despliegue en cloud y escalabilidad
+
+Logging avanzado, métricas enriquecidas y tracing distribuido
+
+🔹 Cómo ejecutar el proyecto
+
+Clonar el repositorio:
+
+git clone https://github.com/CSamuelRod/modern-springboot-api.git
 
 
-Configurar la base de datos en src/main/resources/application.properties (o usar la base en memoria H2).
+Configurar base de datos (PostgreSQL o MySQL) y perfiles dev / prod en application.yml
 
-Ejecutar la aplicación:
+Ejecutar con Maven:
 
 ./mvnw spring-boot:run
 
 
-O si tienes Maven instalado globalmente:
+Acceder a la documentación Swagger:
 
-mvn spring-boot:run
+http://localhost:8080/swagger-ui.html
 
+🔹 Contribuciones
 
-La API estará disponible en:
-
-http://localhost:8080/
-
-🧪 Endpoints (ejemplo)
-
-Sustituye o amplía según los endpoints reales que vayas implementando.
-
-Método	Endpoint	Descripción
-GET	/api/items	Obtener todos los ítems
-GET	/api/items/{id}	Obtener un ítem por su ID
-POST	/api/items	Crear un nuevo ítem
-PUT	/api/items/{id}	Actualizar un ítem existente
-DELETE	/api/items/{id}	Eliminar un ítem
-✅ Buenas prácticas implementadas
-
-Validaciones con anotaciones (@Valid, @NotNull, etc.)
-Controladores estructurados (@RestController)
-Inyección de dependencias mediante @Service y @Repository
-Uso de DTOs para desacoplar las entidades de la capa de presentación
-Manejo centralizado de errores con @ControllerAdvice
-Configuración y organización modular
-
-🗺️ Roadmap / próximas mejoras
-
- Implementar autenticación con Spring Security
-
- Desplegar el proyecto en la nube (Render, Railway, o AWS)
-
- Añadir CI/CD con GitHub Actions
-
- Mejorar la estructura del README con ejemplos y capturas
-
-💼 Propósito del repositorio
-
-Este proyecto refleja mi compromiso con el aprendizaje continuo y la mejora constante en el desarrollo backend.
-Lo utilizo como laboratorio personal para practicar nuevas tecnologías y aplicar buenas prácticas de ingeniería de software.
-
-Si te interesa compartir feedback, sugerencias o colaborar, ¡toda contribución es bienvenida! 🙌
+Este proyecto es personal, pero cualquier feedback o sugerencia es bienvenida para mejorar las buenas prácticas en backend con Spring Boot.
