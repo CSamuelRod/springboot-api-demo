@@ -1,6 +1,5 @@
 package com.api.app.demo_api.controller;
 
-import com.api.app.demo_api.product.entity.Product;
 import com.api.app.demo_api.product.repository.ProductRepository;
 
 import org.junit.jupiter.api.BeforeEach;
