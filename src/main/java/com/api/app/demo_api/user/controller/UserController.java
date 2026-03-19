@@ -1,6 +1,9 @@
 package com.api.app.demo_api.user.controller;
 
+import com.api.app.demo_api.user.dto.UserRequest;
+import com.api.app.demo_api.user.dto.UserResponse;
 import com.api.app.demo_api.user.entity.User;
+import com.api.app.demo_api.user.mapper.UserMapper;
 import com.api.app.demo_api.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,26 +25,26 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserDto> getAllUsers() {
+    public List<UserResponse> getAllUsers() {
         return userService.getAllUsers()
                 .stream()
-                .map(userMapper::toDto)
+                .map(userMapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long id) {
         return userService.getUserById(id)
-                .map(userMapper::toDto)
+                .map(userMapper::toResponse)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto dto) {
-        User user = userMapper.toEntity(dto);
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest request) {
+        User user = userMapper.toEntity(request);
         User saved = userService.saveUser(user);
-        return ResponseEntity.ok(userMapper.toDto(saved));
+        return ResponseEntity.ok(userMapper.toResponse(saved));
     }
 
     @DeleteMapping("/{id}")

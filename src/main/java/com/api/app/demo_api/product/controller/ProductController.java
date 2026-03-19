@@ -1,11 +1,15 @@
 package com.api.app.demo_api.product.controller;
 
+import com.api.app.demo_api.product.dto.ProductRequest;
+import com.api.app.demo_api.product.dto.ProductResponse;
 import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.mapper.ProductMapper;
 import com.api.app.demo_api.product.service.ProductService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,52 +18,39 @@ import java.util.stream.Collectors;
 public class ProductController {
 
     private final ProductService productService;
+    private final ProductMapper mapper;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductMapper mapper) {
         this.productService = productService;
+        this.mapper = mapper;
     }
 
     @GetMapping
-    public List<ProductDto> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productService.getAllProducts()
                 .stream()
-                .map(this::toDto)
+                .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
         return productService.findById(id)
-                .map(product -> ResponseEntity.ok(toDto(product)))
+                .map(mapper::toResponse)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto dto) {
-        Product product = toEntity(dto);
+    public ResponseEntity<ProductResponse> createProduct(@Valid @RequestBody ProductRequest request) {
+        Product product = mapper.toEntity(request);
         Product saved = productService.saveProduct(product);
-        return ResponseEntity.ok(toDto(saved));
+        return ResponseEntity.ok(mapper.toResponse(saved));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
-    }
-
-    // Conversión Entity <-> DTO
-    private ProductDto toDto(Product product) {
-        ProductDto dto = new ProductDto();
-        dto.setId(product.getId());
-        dto.setName(product.getName());
-        dto.setPrice(product.getPrice());
-        return dto;
-    }
-
-    private Product toEntity(ProductDto dto) {
-        Product product = new Product();
-        product.setName(dto.getName());
-        product.setPrice(dto.getPrice());
-        return product;
     }
 }

@@ -5,6 +5,7 @@ import com.api.app.demo_api.jwtConfig.dtos.AuthResponse;
 import com.api.app.demo_api.jwtConfig.dtos.RegisterRequest;
 import com.api.app.demo_api.jwtConfig.jwt.JwtUtil;
 import com.api.app.demo_api.user.entity.User;
+import com.api.app.demo_api.user.entity.enums.Role;
 import com.api.app.demo_api.user.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -52,13 +53,21 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest r) {
-        if (userRepo.existsByUsername(r.getUsername())) {
+        if (userRepo.existsByUsername(r.username())) {
             return ResponseEntity.badRequest().body("Username exists");
         }
+
         User u = new User();
-        u.setUsername(r.getUsername());
-        u.setPassword(encoder.encode(r.getPassword()));
-        u.setRoles(Set.of("ROLE_USER")); // o Set.of(Role.ROLE_USER) si usas enum
+        u.setUsername(r.username());
+        u.setPassword(encoder.encode(r.password()));
+
+        // Convertimos el string a enum
+        try {
+            u.setRole(Role.valueOf(r.role().toUpperCase()));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid role");
+        }
+
         userRepo.save(u);
         return ResponseEntity.ok(Map.of("status", "ok"));
     }
