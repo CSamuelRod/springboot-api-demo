@@ -2,6 +2,7 @@ package com.api.app.demo_api.user.service;
 
 import com.api.app.demo_api.user.entity.User;
 import com.api.app.demo_api.user.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
@@ -10,14 +11,10 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
-
-    // Inyección por constructor (mejor para testear y para @RequiredArgsConstructor de Lombok si lo usas)
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     // 🔐 Implementación de UserDetailsService (para login y autenticación)
     @Override
@@ -25,7 +22,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado: " + username));
 
-        var authorities = user.getRoles().stream()
+        var authorities = user.getRole().stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toSet());
 

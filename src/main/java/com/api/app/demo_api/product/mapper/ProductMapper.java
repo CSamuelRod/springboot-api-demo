@@ -1,0 +1,17 @@
+package com.api.app.demo_api.product.mapper;
+
+import com.api.app.demo_api.product.dto.ProductResponse;
+import com.api.app.demo_api.product.entity.Product;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ProductMapper {
+
+    public ProductResponse toResponse(Product product) {
+        return new ProductResponse(
+                product.getId(),
+                product.getName(),
+                product.getPrice()
+        );
+    }
+}

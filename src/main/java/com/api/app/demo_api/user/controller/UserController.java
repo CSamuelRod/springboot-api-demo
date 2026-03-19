@@ -1,8 +1,6 @@
 package com.api.app.demo_api.user.controller;
 
-import com.api.app.demo_api.common.dto.UserDto;
 import com.api.app.demo_api.user.entity.User;
-import com.api.app.demo_api.user.mapper.UserMapper;
 import com.api.app.demo_api.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;

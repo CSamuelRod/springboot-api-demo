@@ -1,6 +1,5 @@
 package com.api.app.demo_api.product.controller;
 
-import com.api.app.demo_api.common.dto.ProductDto;
 import com.api.app.demo_api.product.entity.Product;
 import com.api.app.demo_api.product.service.ProductService;
 
@@ -30,7 +29,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
-        return productService.getProductById(id)
+        return productService.findById(id)
                 .map(product -> ResponseEntity.ok(toDto(product)))
                 .orElse(ResponseEntity.notFound().build());
     }

@@ -8,22 +8,22 @@ import org.springframework.stereotype.Service;
 import com.api.app.demo_api.product.entity.Product;
 import com.api.app.demo_api.product.repository.ProductRepository;
 
+import com.api.app.demo_api.product.entity.Product;
+import com.api.app.demo_api.product.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-        private final ProductRepository productRepository;
-        
-        public ProductService(ProductRepository productRepository) {
-            this.productRepository = productRepository;
-        }
+    private final ProductRepository productRepository;
 
-        public List<Product> getAllProducts() {
-            return productRepository.findAll();
-        }
-
-        public Optional<Product> getProductById(Long id) {
-            return productRepository.findById(id);
-        }
+    public Optional<Product> findById(Long id) {
+        return productRepository.findById(id);
+    }
 
         public Product saveProduct(Product product) {
             return productRepository.save(product);

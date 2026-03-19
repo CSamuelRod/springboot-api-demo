@@ -1,5 +1,6 @@
 package com.api.app.demo_api.user.entity;
 
+import com.api.app.demo_api.user.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -15,9 +16,7 @@ public class User {
     private String username;
     @Column(nullable = false)
     private String password;
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role")
-    private Set<String> roles;
-    // getters/setters
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role; // solo un rol
 }

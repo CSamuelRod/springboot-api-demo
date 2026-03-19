@@ -39,7 +39,7 @@ class ProductServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(product));
 
         // Act
-        Optional<Product> result = service.getProductById(1L);
+        Optional<Product> result = service.findById(1L);
 
 
         // Assert
