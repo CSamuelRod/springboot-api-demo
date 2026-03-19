@@ -20,12 +20,12 @@
     <properties>
         <java.version>21</java.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <lombok.version>1.18.30</lombok.version>
-    </properties>
+        <!-- <mapstruct.version>1.5.5.Final</mapstruct.version> -->
+       <lombok.version>1.18.30</lombok.version>
+   </properties>
 
-    <dependencies>
-        <!-- Spring Boot core -->
+   <dependencies>
+       <!-- Spring Boot core -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -81,29 +81,32 @@
         </dependency>
 
         <!-- MapStruct -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${mapstruct.version}</version>
-        </dependency>
-
-        <!-- MapStruct processor -->
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${mapstruct.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Integración Lombok + MapStruct -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>0.2.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Base de datos -->
+        <!--
+       <dependency>
+           <groupId>org.mapstruct</groupId>
+           <artifactId>mapstruct</artifactId>
+           <version>${mapstruct.version}</version>
+       </dependency>
+-->
+       <!-- MapStruct processor -->
+        <!--
+       <dependency>
+           <groupId>org.mapstruct</groupId>
+           <artifactId>mapstruct-processor</artifactId>
+           <version>${mapstruct.version}</version>
+           <scope>provided</scope>
+       </dependency>
+        -->
+       <!-- Integración Lombok + MapStruct -->
+        <!--
+       <dependency>
+           <groupId>org.projectlombok</groupId>
+           <artifactId>lombok-mapstruct-binding</artifactId>
+           <version>0.2.0</version>
+           <scope>provided</scope>
+       </dependency>
+        -->
+       <!-- Base de datos -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -160,6 +163,8 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <annotationProcessorPaths>
+
+                        <!--
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
@@ -170,6 +175,7 @@
                             <artifactId>lombok-mapstruct-binding</artifactId>
                             <version>0.2.0</version>
                         </path>
+                        -->
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
