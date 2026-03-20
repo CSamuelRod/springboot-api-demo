@@ -38,16 +38,22 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody AuthRequest req) {
+
+        // 🔹 Autenticación con Spring Security
         Authentication auth = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(req.getUsername(), req.getPassword())
         );
 
-        // obtener roles del Authentication
-        List<String> roles = auth.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+        // 🔹 Obtener el único rol del usuario
+        String role = auth.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority()) // "ADMIN" o "USER"
+                .findFirst() // tomamos el primero (solo hay uno)
+                .orElseThrow(() -> new RuntimeException("No role assigned to user"));
 
-        String token = jwtUtil.generateToken(req.getUsername(), roles);
+        // 🔹 Generar token JWT con username y rol
+        String token = jwtUtil.generateToken(req.getUsername(), role);
+
+        // 🔹 Devolver token en la respuesta
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

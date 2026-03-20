@@ -2,7 +2,6 @@ package com.api.app.demo_api.jwtConfig.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.io.Decoders;
 import org.springframework.stereotype.Component;
 import org.springframework.core.env.Environment;
 
@@ -13,12 +12,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * JwtUtil - Clase utilitaria para crear, validar y leer JWTs.
+ * Adaptada para un solo rol por usuario (ADMIN o USER).
+ */
 @Component
 public class JwtUtil {
 
-    private final Key key;
-    private final long validityMillis = 1000L * 60 * 60; // 1h, ajústalo si quieres
+    private final Key key; // clave secreta para firmar los tokens
+    private final long validityMillis = 1000L * 60 * 60; // 1 hora de validez
 
+    /**
+     * Constructor que obtiene la clave secreta desde application.properties
+     */
     public JwtUtil(Environment env) {
         String secret = env.getProperty("jwt.secret");
         if (secret == null || secret.isBlank()) {
@@ -31,28 +37,44 @@ public class JwtUtil {
         this.key = Keys.hmacShaKeyFor(secretBytes);
     }
 
-    public String generateToken(String username, List<String> roles) {
+    /**
+     * Genera un token JWT para un usuario y su rol.
+     * @param username Nombre del usuario
+     * @param role Rol del usuario (ADMIN o USER)
+     * @return JWT como String
+     */
+    public String generateToken(String username, String role) {
         Date now = new Date();
-        var claims = Map.of("roles", roles);
+        // Guardamos el rol como una lista con un solo elemento para mantener compatibilidad
+        Map<String, Object> claims = Map.of("roles", List.of(role));
+
         return Jwts.builder()
-                .setSubject(username)
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + validityMillis))
-                .signWith(key, SignatureAlgorithm.HS256)
+                .setSubject(username)         // username en "sub"
+                .setClaims(claims)            // rol en "roles"
+                .setIssuedAt(now)              // fecha de emisión
+                .setExpiration(new Date(now.getTime() + validityMillis)) // expiración
+                .signWith(key, SignatureAlgorithm.HS256) // firmar con HS256
                 .compact();
     }
 
+    /**
+     * Valida si el token es correcto y no ha expirado.
+     * @param token JWT
+     * @return true si válido, false si inválido
+     */
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException ex) {
-            // opcional: loguea el error
+            // opcional: loguear ex.getMessage()
             return false;
         }
     }
 
+    /**
+     * Extrae el username del token (campo "sub")
+     */
     public String extractUsername(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
@@ -60,14 +82,33 @@ public class JwtUtil {
                 .getSubject();
     }
 
+    /**
+     * Extrae el rol del token.
+     * Como solo hay un rol, devolvemos el primer elemento de la lista.
+     */
+    @SuppressWarnings("unchecked")
+    public String extractRole(String token) {
+        var body = Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token)
+                .getBody();
+        Object rolesObj = body.get("roles");
+        if (rolesObj instanceof List<?> rolesList && !rolesList.isEmpty()) {
+            return rolesList.get(0).toString(); // tomamos el único rol
+        }
+        return null;
+    }
+
+    /**
+     * Extrae todos los roles como lista (opcional, si algún día hay varios)
+     */
     @SuppressWarnings("unchecked")
     public List<String> extractRoles(String token) {
         var body = Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token)
                 .getBody();
         Object rolesObj = body.get("roles");
-        if (rolesObj instanceof List<?>) {
-            return ((List<?>) rolesObj).stream()
+        if (rolesObj instanceof List<?> list) {
+            return ((List<?>) list).stream()
                     .map(Object::toString)
                     .collect(Collectors.toList());
         }

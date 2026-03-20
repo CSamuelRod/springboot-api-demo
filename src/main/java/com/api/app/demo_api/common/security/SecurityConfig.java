@@ -25,50 +25,60 @@ public class SecurityConfig {
         this.jwtUtil = jwtUtil;
     }
 
+    // Bean para autenticar usuarios en login
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
+    // Bean para encriptar contraseñas usando BCrypt
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // Configuración principal de seguridad
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        JwtAuthFilter jwtFilter = new JwtAuthFilter(jwtUtil, userDetailsService);
+        // Filtro que valida JWT y setea la autenticación en SecurityContext
+        JwtAuthFilter jwtFilter = new JwtAuthFilter(jwtUtil);
 
         http
-                // API puramente REST -> CSRF deshabilitado (si no usas cookies de sesión)
+                // Deshabilitamos CSRF porque es una API REST stateless
                 .csrf(csrf -> csrf.disable())
 
-                // Stateless: no guardar sesión en servidor
+                // No mantenemos sesión en servidor (stateless) → cada request valida token
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 // Reglas de autorización
                 .authorizeHttpRequests(auth -> auth
-                        // Endpoints públicos
+                        // Endpoints públicos: registro/login, swagger y recursos públicos
                         .requestMatchers("/auth/**", "/public/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
 
-                        // Opcional: permitir H2 console en dev (si la usas) — requiere frameOptions disabled abajo
+                        // Consola H2 (solo para desarrollo)
                         .requestMatchers("/h2-console/**").permitAll()
 
-                        // Actuator: restringir en prod; aquí dejamos /actuator/health público y el resto sólo ADMIN
+                        // Actuator: health/info público, resto solo ADMIN
                         .requestMatchers("/actuator/health", "/actuator/info").permitAll()
                         .requestMatchers("/actuator/**").hasRole("ADMIN")
 
-                        // Resto necesita autenticación
+                        // Endpoints de productos → solo ADMIN
+                        .requestMatchers("/api/products/**").hasRole("ADMIN")
+
+                        // Endpoints de órdenes → cualquier usuario autenticado
+                        .requestMatchers("/orders/**").authenticated()
+
+                        // Resto de endpoints → autenticación requerida
                         .anyRequest().authenticated()
                 )
 
-                // Headers y configuración extra (por ejemplo si usas H2 console en dev)
+                // Headers adicionales
                 .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()) // necesario para H2 console
+                        .frameOptions(frame -> frame.sameOrigin()) // Necesario para H2 console
                 );
 
-        // Insertar el filtro JWT antes del UsernamePasswordAuthenticationFilter
+        // Insertamos el filtro JWT **antes** del filtro de username/password de Spring
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

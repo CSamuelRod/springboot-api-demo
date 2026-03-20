@@ -28,7 +28,6 @@ public class OrderController {
             Authentication authentication) {
 
         String username = authentication.getName();
-
         Order order = orderService.createOrder(request, username);
 
         return ResponseEntity.ok(orderMapper.toResponse(order));
